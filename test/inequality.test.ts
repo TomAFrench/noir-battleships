@@ -10,8 +10,9 @@ import { resolve } from 'path';
 import { expect } from 'chai';
 
 type ProofInput = {
-  x: number;
-  y: number;
+  guess: number;
+  ship: number;
+  report_hit: number;
 };
 
 describe('Tests using typescript wrapper', function () {
@@ -32,21 +33,39 @@ describe('Tests using typescript wrapper', function () {
     return verify_proof(verifier, proof);
   }
 
-  context('when inputs are equal', () => {
+  function itAcceptsTheProof(abi: ProofInput) {
+    it('accepts the proof', async () => {
+      const verified = await createAndVerifyProof(abi);
+
+      expect(verified).to.be.true;
+    });
+  }
+
+  function itRejectsTheProof(abi: ProofInput) {
     it('rejects the proof', async () => {
-      const abi: ProofInput = { x: 3, y: 3 };
       const verified = await createAndVerifyProof(abi);
 
       expect(verified).to.be.false;
     });
+  }
+
+  context('when ship is hit', () => {
+    context('if hit is reported', () => {
+      itAcceptsTheProof({ guess: 1, ship: 1, report_hit: 1 });
+    });
+
+    context('if miss is reported', () => {
+      itRejectsTheProof({ guess: 1, ship: 1, report_hit: 0 });
+    });
   });
 
-  context('when inputs are unequal', () => {
-    it('accepts the proof', async () => {
-      const abi: ProofInput = { x: 3, y: 4 };
-      const verified = await createAndVerifyProof(abi);
+  context('when ship is missed', () => {
+    context('if hit is reported', () => {
+      itRejectsTheProof({ guess: 2, ship: 1, report_hit: 1 });
+    });
 
-      expect(verified).to.be.true;
+    context('if miss is reported', () => {
+      itAcceptsTheProof({ guess: 2, ship: 1, report_hit: 0 });
     });
   });
 });

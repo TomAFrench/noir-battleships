@@ -51,21 +51,21 @@ describe('Tests using typescript wrapper', function () {
 
   context('when ship is hit', () => {
     context('if hit is reported', () => {
-      itAcceptsTheProof({ guess: 1, ship: 1, report_hit: 1 });
+      itAcceptsTheProof({ guess: 1, ship: 1, report_hit: 2 });
     });
 
     context('if miss is reported', () => {
-      itRejectsTheProof({ guess: 1, ship: 1, report_hit: 0 });
+      itRejectsTheProof({ guess: 1, ship: 1, report_hit: 1 });
     });
   });
 
   context('when ship is missed', () => {
     context('if hit is reported', () => {
-      itRejectsTheProof({ guess: 2, ship: 1, report_hit: 1 });
+      itRejectsTheProof({ guess: 2, ship: 1, report_hit: 2 });
     });
 
     context('if miss is reported', () => {
-      itAcceptsTheProof({ guess: 2, ship: 1, report_hit: 0 });
+      itAcceptsTheProof({ guess: 2, ship: 1, report_hit: 1 });
     });
   });
 });

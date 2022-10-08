@@ -68,4 +68,9 @@ describe('Tests using typescript wrapper', function () {
       itAcceptsTheProof({ guess: 2, ship: 1, report_hit: 0 });
     });
   });
+
+  context('invalid hit report', () => {
+    itRejectsTheProof({ guess: 2, ship: 1, report_hit: 2 });
+  });
+
 });
